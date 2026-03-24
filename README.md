@@ -1,3 +1,0 @@
-# Teknikrav
-
-Soon online
