@@ -1,1 +1,746 @@
-Soon online
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teknikrav — Tech Consulting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sand: #f5f0e8;
+      --warm-white: #faf8f4;
+      --clay: #c8805a;
+      --clay-light: #e8a882;
+      --dark: #2a2118;
+      --mid: #6b5c4e;
+      --light-mid: #a89585;
+      --border: #e0d5c8;
+      --card: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--dark);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Language Toggle ── */
+    #lang-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--mid);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+      user-select: none;
+    }
+    #lang-toggle:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transform: translateY(-1px);
+    }
+    .flag { font-size: 1.1rem; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      padding: 1.5rem 3rem;
+      display: flex;
+      align-items: center;
+      background: rgba(250, 248, 244, 0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-bottom-color: var(--border); }
+    .nav-logo {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      color: var(--dark);
+      letter-spacing: 0.01em;
+    }
+    .nav-links {
+      margin-left: auto;
+      margin-right: 4rem;
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--mid);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--clay); }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 8rem 3rem 5rem;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(200,128,90,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(200,128,90,0.05) 0%, transparent 70%),
+        var(--warm-white);
+    }
+    .hero-inner {
+      max-width: 780px;
+      text-align: center;
+      animation: fadeUp 0.9s ease both;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.1s ease forwards;
+    }
+    .hero-name {
+      font-family: 'Lora', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--clay);
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--mid);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s ease forwards;
+    }
+    .hero-cta {
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s ease forwards;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      background: var(--clay);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(200,128,90,0.3);
+    }
+    .btn:hover {
+      background: #b8704a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(200,128,90,0.35);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--mid);
+      border: 1px solid var(--border);
+      box-shadow: none;
+      margin-left: 1rem;
+    }
+    .btn-ghost:hover {
+      background: var(--sand);
+      color: var(--dark);
+      box-shadow: none;
+    }
+
+    /* ── Sections shared ── */
+    section { padding: 6rem 3rem; }
+    .section-inner { max-width: 860px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+    }
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--mid);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* ── About ── */
+    #about { background: var(--sand); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-photo-wrap {
+      position: relative;
+    }
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 4/5;
+      border-radius: 1rem;
+      background: linear-gradient(135deg, var(--clay-light) 0%, var(--clay) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .about-photo-initials {
+      font-family: 'Lora', serif;
+      font-size: 5rem;
+      color: rgba(255,255,255,0.6);
+      font-style: italic;
+    }
+    .about-photo-accent {
+      position: absolute;
+      bottom: -1.5rem;
+      right: -1.5rem;
+      width: 60%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--warm-white);
+      z-index: -1;
+    }
+    .about-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat-num {
+      font-family: 'Lora', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--clay);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--light-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Services ── */
+    #services { background: var(--warm-white); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.07);
+    }
+    .service-icon {
+      width: 2.8rem;
+      height: 2.8rem;
+      background: var(--sand);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.25rem;
+    }
+    .service-title {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.6rem;
+    }
+    .service-desc {
+      font-size: 0.9rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* ── Contact ── */
+    #contact { background: var(--sand); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-field label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--light-mid);
+    }
+    .form-field input,
+    .form-field textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--dark);
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: 0.6rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: vertical;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--clay-light);
+      box-shadow: 0 0 0 3px rgba(200,128,90,0.1);
+    }
+    .form-field textarea { min-height: 130px; }
+    .contact-details { padding-top: 0.5rem; }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .contact-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-item-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--light-mid);
+      margin-bottom: 0.15rem;
+    }
+    .contact-item-value {
+      font-size: 0.95rem;
+      color: var(--dark);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2.5rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--light-mid);
+    }
+    .footer-name {
+      font-family: 'Lora', serif;
+      color: var(--mid);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .about-photo { aspect-ratio: 3/2; }
+      #lang-toggle { top: 1rem; right: 1rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="lang-toggle" aria-label="Switch language">
+    <span class="flag" id="flag-icon">🇬🇧</span>
+    <span id="lang-label">EN</span>
+  </button>
+
+  <nav id="main-nav">
+    <div class="nav-logo" data-i18n="nav_logo">Teknikrav</div>
+    <ul class="nav-links">
+      <!-- <li><a href="#about" data-i18n="nav_about">About</a></li> -->
+      <!-- <li><a href="#services" data-i18n="nav_services">Services</a></li> -->
+      <!-- <li><a href="#contact" data-i18n="nav_contact">Contact</a></li> -->
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <span class="hero-eyebrow" data-i18n="hero_eyebrow">Independent Tech Consultant</span>
+      <h1 class="hero-name">Teknikrav</h1>
+      <p class="hero-tagline" data-i18n="hero_tagline">
+        We help small businesses and startups build better software — with care, clarity, and no unnecessary complexity.
+      </p>
+      <!-- <div class="hero-cta"> -->
+      <!--   <a href="#contact" class="btn" data-i18n="hero_cta_primary">Let's talk</a> -->
+      <!--   <a href="#services" class="btn btn-ghost" data-i18n="hero_cta_secondary">What I do</a> -->
+      <!-- </div> -->
+    </div>
+  </section>
+  <!---->
+  <!-- <!-- ABOUT -->
+  <!-- <section id="about"> -->
+  <!--   <div class="section-inner"> -->
+  <!--     <div class="about-grid"> -->
+  <!--       <div class="about-photo-wrap reveal"> -->
+  <!--         <div class="about-photo"> -->
+  <!--           <span class="about-photo-initials">EL</span> -->
+  <!--         </div> -->
+  <!--         <div class="about-photo-accent"></div> -->
+  <!--       </div> -->
+  <!--       <div class="reveal"> -->
+  <!--         <p class="section-label" data-i18n="about_label">About me</p> -->
+  <!--         <h2 class="section-title" data-i18n="about_title">Tech made human.</h2> -->
+  <!--         <p class="section-body" data-i18n="about_body"> -->
+  <!--           I'm Nicola — a solo consultant with over a decade of experience in software architecture, cloud infrastructure, and digital strategy. I work directly with founders and teams who want a trusted partner, not an anonymous agency. -->
+  <!--         </p> -->
+  <!--         <div class="about-stats"> -->
+  <!--           <div> -->
+  <!--             <span class="stat-num">12+</span> -->
+  <!--             <span class="stat-label" data-i18n="stat_years">Years experience</span> -->
+  <!--           </div> -->
+  <!--           <div> -->
+  <!--             <span class="stat-num">40+</span> -->
+  <!--             <span class="stat-label" data-i18n="stat_clients">Happy clients</span> -->
+  <!--           </div> -->
+  <!--           <div> -->
+  <!--             <span class="stat-num">1</span> -->
+  <!--             <span class="stat-label" data-i18n="stat_owner">Point of contact</span> -->
+  <!--           </div> -->
+  <!--         </div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!-- </section> -->
+  <!---->
+  <!-- <!-- SERVICES -->
+  <!-- <section id="services"> -->
+  <!--   <div class="section-inner"> -->
+  <!--     <div class="reveal"> -->
+  <!--       <p class="section-label" data-i18n="services_label">What I do</p> -->
+  <!--       <h2 class="section-title" data-i18n="services_title">How I can help you.</h2> -->
+  <!--     </div> -->
+  <!--     <div class="services-grid"> -->
+  <!--       <div class="service-card reveal"> -->
+  <!--         <div class="service-icon">🏗️</div> -->
+  <!--         <div class="service-title" data-i18n="s1_title">Architecture & Strategy</div> -->
+  <!--         <p class="service-desc" data-i18n="s1_desc"> -->
+  <!--           Clear technical roadmaps and system design that grow with your business — without over-engineering. -->
+  <!--         </p> -->
+  <!--       </div> -->
+  <!--       <div class="service-card reveal" style="transition-delay:0.1s"> -->
+  <!--         <div class="service-icon">☁️</div> -->
+  <!--         <div class="service-title" data-i18n="s2_title">Cloud & Infrastructure</div> -->
+  <!--         <p class="service-desc" data-i18n="s2_desc"> -->
+  <!--           AWS, Azure, or GCP — I help you choose, migrate, and manage cloud environments that are reliable and cost-effective. -->
+  <!--         </p> -->
+  <!--       </div> -->
+  <!--       <div class="service-card reveal" style="transition-delay:0.2s"> -->
+  <!--         <div class="service-icon">🤝</div> -->
+  <!--         <div class="service-title" data-i18n="s3_title">CTO as a Service</div> -->
+  <!--         <p class="service-desc" data-i18n="s3_desc"> -->
+  <!--           Embedded technical leadership for early-stage startups who need senior expertise without a full-time hire. -->
+  <!--         </p> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!-- </section> -->
+  <!---->
+  <!-- <!-- CONTACT -->
+  <!-- <section id="contact"> -->
+  <!--   <div class="section-inner"> -->
+  <!--     <div class="contact-grid"> -->
+  <!--       <div> -->
+  <!--         <div class="reveal"> -->
+  <!--           <p class="section-label" data-i18n="contact_label">Get in touch</p> -->
+  <!--           <h2 class="section-title" data-i18n="contact_title">Let's build something together.</h2> -->
+  <!--           <p class="section-body" data-i18n="contact_body"> -->
+  <!--             Tell me about your project — I read every message personally and reply within one business day. -->
+  <!--           </p> -->
+  <!--         </div> -->
+  <!--         <div class="contact-details" style="margin-top:2.5rem"> -->
+  <!--           <div class="contact-item reveal"> -->
+  <!--             <div class="contact-icon">✉️</div> -->
+  <!--             <div> -->
+  <!--               <div class="contact-item-label" data-i18n="contact_email_label">Email</div> -->
+  <!--               <div class="contact-item-value">erik@lindstromtech.se</div> -->
+  <!--             </div> -->
+  <!--           </div> -->
+  <!--           <div class="contact-item reveal"> -->
+  <!--             <div class="contact-icon">📍</div> -->
+  <!--             <div> -->
+  <!--               <div class="contact-item-label" data-i18n="contact_location_label">Location</div> -->
+  <!--               <div class="contact-item-value" data-i18n="contact_location_value">Stockholm, Sweden — available remotely</div> -->
+  <!--             </div> -->
+  <!--           </div> -->
+  <!--         </div> -->
+  <!--       </div> -->
+  <!--       <form class="contact-form reveal" onsubmit="handleSubmit(event)"> -->
+  <!--         <div class="form-field"> -->
+  <!--           <label data-i18n="form_name">Name</label> -->
+  <!--           <input type="text" placeholder="" data-i18n-placeholder="form_name_ph" required /> -->
+  <!--         </div> -->
+  <!--         <div class="form-field"> -->
+  <!--           <label data-i18n="form_email">Email</label> -->
+  <!--           <input type="email" placeholder="" data-i18n-placeholder="form_email_ph" required /> -->
+  <!--         </div> -->
+  <!--         <div class="form-field"> -->
+  <!--           <label data-i18n="form_message">Message</label> -->
+  <!--           <textarea placeholder="" data-i18n-placeholder="form_message_ph" required></textarea> -->
+  <!--         </div> -->
+  <!--         <button type="submit" class="btn" style="align-self:flex-start;border:none;cursor:pointer" data-i18n="form_send">Send message</button> -->
+  <!--       </form> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!-- </section> -->
+  <!---->
+  <footer>
+    <span class="footer-name">Teknikrav</span>
+    <span data-i18n="footer_copy">© 2026 — Independent Tech Consultant</span>
+  </footer>
+
+  <script>
+    /* ─── Translations ─── */
+    const i18n = {
+      sv: {
+        nav_logo: "Teknikrav",
+        nav_about: "Om mig",
+        nav_services: "Tjänster",
+        nav_contact: "Kontakt",
+        hero_eyebrow: "Frilansande teknikkonsult",
+        hero_tagline: "Vi hjälper småföretag och startups bygga bättre IT Infrastruktur — med omsorg, tydlighet och utan onödig komplexitet.",
+        hero_cta_primary: "Låt oss prata",
+        hero_cta_secondary: "Vad jag gör",
+        about_label: "Om mig",
+        about_title: "Teknik på mänskliga villkor.",
+        about_body: "Jag heter Nicola — en frilansande konsult med över ett decenniums erfarenhet av mjukvaruarkitektur, molninfrastruktur och digital strategi. Jag arbetar direkt med grundare och team som söker en pålitlig partner, inte en anonym byrå.",
+        stat_years: "Års erfarenhet",
+        stat_clients: "Nöjda kunder",
+        stat_owner: "Kontaktpunkt",
+        services_label: "Vad jag gör",
+        services_title: "Hur jag kan hjälpa dig.",
+        s1_title: "Arkitektur & Strategi",
+        s1_desc: "Tydliga tekniska färdplaner och systemdesign som växer med din verksamhet — utan överkonstruktion.",
+        s2_title: "Moln & Infrastruktur",
+        s2_desc: "AWS, Azure eller GCP — jag hjälper dig välja, migrera och förvalta molnmiljöer som är tillförlitliga och kostnadseffektiva.",
+        s3_title: "CTO som tjänst",
+        s3_desc: "Inbäddad tekniskt ledarskap för tidiga startups som behöver seniorkompetens utan en heltidsanställning.",
+        contact_label: "Kontakta mig",
+        contact_title: "Låt oss bygga något tillsammans.",
+        contact_body: "Berätta om ditt projekt — jag läser varje meddelande personligen och svarar inom en arbetsdag.",
+        contact_email_label: "E-post",
+        contact_location_label: "Plats",
+        contact_location_value: "Stockholm, Sverige — tillgänglig på distans",
+        form_name: "Namn",
+        form_name_ph: "Ditt namn",
+        form_email: "E-post",
+        form_email_ph: "din@epost.se",
+        form_message: "Meddelande",
+        form_message_ph: "Berätta om ditt projekt...",
+        form_send: "Skicka meddelande",
+        footer_copy: "© 2026 — Frilansande teknikkonsult",
+      },
+      en: {
+        nav_logo: "Teknikrav",
+        nav_about: "About",
+        nav_services: "Services",
+        nav_contact: "Contact",
+        hero_eyebrow: "Independent Tech Consultant",
+        hero_tagline: "We help small businesses and startups build better IT infrastructure — with care, clarity, and no unnecessary complexity.",
+        hero_cta_primary: "Let's talk",
+        hero_cta_secondary: "What I do",
+        about_label: "About me",
+        about_title: "Tech made human.",
+        about_body: "I'm Erik — a solo consultant with over a decade of experience in software architecture, cloud infrastructure, and digital strategy. I work directly with founders and teams who want a trusted partner, not an anonymous agency.",
+        stat_years: "Years experience",
+        stat_clients: "Happy clients",
+        stat_owner: "Point of contact",
+        services_label: "What I do",
+        services_title: "How I can help you.",
+        s1_title: "Architecture & Strategy",
+        s1_desc: "Clear technical roadmaps and system design that grow with your business — without over-engineering.",
+        s2_title: "Cloud & Infrastructure",
+        s2_desc: "AWS, Azure, or GCP — I help you choose, migrate, and manage cloud environments that are reliable and cost-effective.",
+        s3_title: "CTO as a Service",
+        s3_desc: "Embedded technical leadership for early-stage startups who need senior expertise without a full-time hire.",
+        contact_label: "Get in touch",
+        contact_title: "Let's build something together.",
+        contact_body: "Tell me about your project — I read every message personally and reply within one business day.",
+        contact_email_label: "Email",
+        contact_location_label: "Location",
+        contact_location_value: "Stockholm, Sweden — available remotely",
+        form_name: "Name",
+        form_name_ph: "Your name",
+        form_email: "Email",
+        form_email_ph: "you@example.com",
+        form_message: "Message",
+        form_message_ph: "Tell me about your project...",
+        form_send: "Send message",
+        footer_copy: "© 2026 — Independent Tech Consultant",
+      }
+    };
+
+    /* ─── Language detection & switching ─── */
+    function detectLang() {
+      const saved = localStorage.getItem('lang');
+      if (saved) return saved;
+      const browser = navigator.language || navigator.userLanguage || 'en';
+      return browser.toLowerCase().startsWith('sv') ? 'sv' : 'en';
+    }
+
+    let currentLang = detectLang();
+
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang;
+
+      const t = i18n[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) el.placeholder = t[key];
+      });
+
+      const toggle = document.getElementById('lang-toggle');
+      const flagIcon = document.getElementById('flag-icon');
+      const langLabel = document.getElementById('lang-label');
+      if (lang === 'sv') {
+        flagIcon.textContent = '🇬🇧';
+        langLabel.textContent = 'EN';
+        toggle.title = 'Switch to English';
+      } else {
+        flagIcon.textContent = '🇸🇪';
+        langLabel.textContent = 'SV';
+        toggle.title = 'Byt till svenska';
+      }
+    }
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      applyLang(currentLang === 'sv' ? 'en' : 'sv');
+    });
+
+    applyLang(currentLang);
+
+    /* ─── Scroll effects ─── */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+    });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ─── Form ─── */
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      const t = i18n[currentLang];
+      btn.textContent = currentLang === 'sv' ? 'Skickat! ✓' : 'Sent! ✓';
+      btn.style.background = '#6a9e6a';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = t.form_send;
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
